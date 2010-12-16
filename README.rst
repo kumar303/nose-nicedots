@@ -9,7 +9,7 @@ Prints module/class name then dots for nosetests_.
 Install
 =======
 
-  pip install -e git+git...#egg=nosenicedots
+  pip install -e git+git://github.com/kumar303/nose-nicedots.git#egg=nosenicedots
 
 Usage
 =====
