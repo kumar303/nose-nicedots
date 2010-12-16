@@ -58,4 +58,9 @@ Example
 Caveats
 =======
 
-This will probably only work in Python 2.6!  This can probably be fixed by creating different result instances per version.
+This will probably only work in Python 2.6!  That might be fixable by creating different result instances per version.
+
+Known Issues
+============
+
+- SkipTest is not fully supported.  It kinda works.

@@ -46,11 +46,12 @@ class NiceDots(Plugin):
             self.stream.writeln("%s" % err)
 
         def addError(test, err):
-            TestResult.addError(self, test, err)
+            exc, val, tb = err
+            if not issubclass(exc, SkipTest):
+                TestResult.addError(self, test, err)
             if self.showAll:
                 self.stream.writeln("ERROR")
             elif self.dots:
-                exc, val, tb = err
                 if issubclass(exc, SkipTest):
                     self.stream.writeln("")
                     self.stream.writeln("SKIP: %s" % nice_test_address(test))
