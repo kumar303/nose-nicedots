@@ -13,18 +13,44 @@ Install
 
 Usage
 =====
-  
+
   nosetests --with-nicedots
 
 Example
 =======
 
 ::
-  
+
   $ nosetests --with-nicedots
-  ./yourapp/tests/test_models.py:FooBarTest
-  ...
-  ./yourapp/tests/test_models.py:BarBarTest
-  ............FFE......F
-  ./yourapp/tests/test_helpers.py
+
+  apps/devhub/tests/test_views.py:TestActivity
+  ..............
+  apps/devhub/tests/test_views.py:TestAddVersion
+  .
+  ======================================================================
+  FAIL: apps/devhub/tests/test_views.py:TestAddVersion.test_unique_version_num
+  ----------------------------------------------------------------------
+  Traceback (most recent call last):
+    File "/path/to/apps/devhub/tests/test_views.py", line 3132, in test_unique_version_num
+      assert 0
+  AssertionError
+
+
+  apps/devhub/tests/test_views.py:TestCreateFoobar
+  ..
+  apps/devhub/tests/test_views.py:TestDashboard
   .....
+  apps/devhub/tests/test_views.py:TestDelete
+  ..
+  ======================================================================
+  FAIL: apps/devhub/tests/test_views.py:TestAddVersion.test_unique_version_num
+  ----------------------------------------------------------------------
+  Traceback (most recent call last):
+    File "/path/to/apps/devhub/tests/test_views.py", line 3132, in test_unique_version_num
+      assert 0
+  AssertionError
+
+  ----------------------------------------------------------------------
+  Ran 24 tests in 1.62s
+
+  FAIL

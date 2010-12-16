@@ -14,12 +14,16 @@ class TestPluginFoo(PluginTester, unittest.TestCase):
 
     def test_foo(self):
         print self.output
-        assert 'EF' in self.output
-        assert './nosenicedots/tests/example-suite/test_stuff/test_classes.py:TestClass' in self.output
+        assert 'ERROR: nosenicedots/tests/example-suite/test_stuff/test_classes.py:TestClass.test_error' in self.output
+        assert 'FAIL: nosenicedots/tests/example-suite/test_stuff/test_classes.py:TestClass.test_failing' in self.output
+        assert 'nosenicedots/tests/example-suite/test_stuff/test_classes.py:TestClass' in self.output
         assert '..' in self.output
-        assert './nosenicedots/tests/example-suite/test_stuff/test_functions.py' in self.output
-        assert '..FE' in self.output
-        assert './nosenicedots/tests/example-suite/test_stuff/test_generators.py' in self.output
+        assert 'nosenicedots/tests/example-suite/test_stuff/test_functions.py' in self.output
+        assert '..' in self.output
+        assert 'FAIL: nosenicedots/tests/example-suite/test_stuff/test_functions.py:test_failing' in self.output
+        assert 'ERROR: nosenicedots/tests/example-suite/test_stuff/test_functions.py:test_error' in self.output
+        assert 'SKIP: nosenicedots/tests/example-suite/test_stuff/test_functions.py:test_skip' in self.output
+        assert 'nosenicedots/tests/example-suite/test_stuff/test_generators.py' in self.output
 
     def makeSuite(self):
         pass

@@ -1,4 +1,6 @@
 
+from nose.exc import SkipTest
+
 def test_one():
     pass
 
@@ -10,3 +12,6 @@ def test_failing():
 
 def test_error():
     raise RuntimeError
+
+def test_skip():
+    raise SkipTest("skipped")
