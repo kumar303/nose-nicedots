@@ -54,3 +54,8 @@ Example
   Ran 24 tests in 1.62s
 
   FAILED (failures=1)
+
+Caveats
+=======
+
+This will probably only work in Python 2.6!  This can probably be fixed by creating different result instances per version.
