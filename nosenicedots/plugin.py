@@ -17,7 +17,7 @@ hub = threading.local()
 hub.last_context = None
 
 class NiceDots(Plugin):
-    """Print modules/classes then dots."""
+    """Prints module/class name then dots."""
     name = 'nicedots'
 
     def options(self, parser, env=os.environ):

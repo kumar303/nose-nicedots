@@ -2,7 +2,7 @@
 Nice Dots
 ==============================
 
-Print modules/classes then dots for nosetests_.
+Prints module/class name then dots for nosetests_.
 
 .. _nosetests: http://somethingaboutorange.com/mrl/projects/nose/
 
