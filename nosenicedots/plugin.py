@@ -68,6 +68,7 @@ def get_context(test):
 
 
 def nice_path(path):
+    path = os.path.abspath(path)
     path = path.replace(os.getcwd(), '.')
     if path.endswith('.pyc'):
         path = path[0:-1]
