@@ -15,10 +15,15 @@ def str_count(lines, chunk):
             count += 1
     return count
 
-class TestPluginFoo(PluginTester, unittest.TestCase):
+class NiceDotsTest(PluginTester):
     activate = '--with-nicedots'
     plugins = [NiceDots()]
     suitepath = os.path.join(os.path.dirname(__file__), 'example-suite')
+
+    def makeSuite(self):
+        pass
+
+class TestDefaults(NiceDotsTest, unittest.TestCase):
 
     def test_foo(self):
         print '>' * 80
@@ -50,6 +55,3 @@ class TestPluginFoo(PluginTester, unittest.TestCase):
                       'FAIL: nosenicedots/tests/example-suite/test_stuff/'
                       'test_classes.py:TestClass.test_failing'),
             2)
-
-    def makeSuite(self):
-        pass
