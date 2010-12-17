@@ -37,11 +37,17 @@ class NiceDots(Plugin):
         # TODO(Kumar) this will break when unittest changes.
         # Current code is from 2.6
 
+        def getDescription(test):
+            return nice_test_address(test)
+
+        result.getDescription = getDescription
+
         def printError(flavour, err, test):
             err = TestResult._exc_info_to_string(self, err, test)
             self.stream.writeln("")
             self.stream.writeln(self.separator1)
-            self.stream.writeln("%s: %s" % (flavour, nice_test_address(test)))
+            self.stream.writeln("%s: %s" % (flavour,
+                                            self.getDescription(test)))
             self.stream.writeln(self.separator2)
             self.stream.writeln("%s" % err)
 
