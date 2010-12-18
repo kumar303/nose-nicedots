@@ -3,4 +3,4 @@
 pip-log.txt
 .DS_Store
 *.db
-settings_local.py
+.tox
