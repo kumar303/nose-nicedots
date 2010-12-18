@@ -55,12 +55,18 @@ Example
 
   FAILED (failures=1)
 
+Additional Options
+==================
+
+**--quiet-nice-dots**
+  By default, errors are printed when the occur and also
+  in the summary. Set this to hide them in the summary.
+
 Caveats
 =======
 
-This will probably only work in Python 2.6!  That might be fixable by creating different result instances per version.
-
-Known Issues
-============
-
+- This will probably only work in Python 2.6!  That might be fixable by
+  creating different result instances per version.
 - SkipTest is not fully supported.  It kinda works.
+- If any other plugin needs to patch the unittest result then it will
+  conflict with Nice Dots.

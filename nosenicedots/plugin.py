@@ -24,28 +24,25 @@ class NiceDots(Plugin):
     def options(self, parser, env=os.environ):
         super(NiceDots, self).options(parser, env=env)
         self.parser = parser
+        self.parser.add_option('--quiet-nice-dots',
+            action='store_true', dest='quiet',
+            help=('By default, errors are printed when the occur and also '
+                  'in the summary. Set this to hide them in the summary.'))
 
     def configure(self, options, conf):
         super(NiceDots, self).configure(options, conf)
         if not self.enabled:
             return
-        self.options = options
+        self.cmd_options = options
 
     def prepareTestResult(self, result):
         # TODO(Kumar) this will break when unittest changes.
         # Current code is from 2.6
 
-        # Don't repeat failures at the bottom? Hmm.
-
-        # def printErrors():
-        #     # We already printed errors:
-        #     self.stream.writeln("")
-        #
-        # result.printErrors = printErrors
-
         nice_result = NiceDotsResult(self.runner.stream,
                                      self.runner.descriptions,
-                                     self.runner.verbosity)
+                                     self.runner.verbosity,
+                                     hide_summary=self.cmd_options.quiet)
 
         # Monkey patch unittest result with a custom result.
         # This is because Nose cannot completely replace the
@@ -67,6 +64,10 @@ class NiceDots(Plugin):
 
 class NiceDotsResult(_TextTestResult):
 
+    def __init__(self, stream, descriptions, verbosity, hide_summary=False):
+        super(NiceDotsResult, self).__init__(stream, descriptions, verbosity)
+        self.hide_summary = hide_summary
+
     def getDescription(self, test):
         return nice_test_address(test)
 
@@ -78,6 +79,13 @@ class NiceDotsResult(_TextTestResult):
                                         self.getDescription(test)))
         self.stream.writeln(self.separator2)
         self.stream.writeln("%s" % err)
+
+    def printErrors(self):
+        if self.hide_summary:
+            # Note that errors were already printed as soon as they occurred.
+            self.stream.writeln("")
+        else:
+            super(NiceDotsResult, self).printErrors()
 
     def addError(self, test, err):
         exc, val, tb = err

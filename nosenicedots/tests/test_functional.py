@@ -23,9 +23,10 @@ class NiceDotsTest(PluginTester):
     def makeSuite(self):
         pass
 
+
 class TestDefaults(NiceDotsTest, unittest.TestCase):
 
-    def test_foo(self):
+    def test_suite(self):
         print '>' * 80
         print self.output
         print '>' * 80
@@ -55,3 +56,18 @@ class TestDefaults(NiceDotsTest, unittest.TestCase):
                       'FAIL: nosenicedots/tests/example-suite/test_stuff/'
                       'test_classes.py:TestClass.test_failing'),
             2)
+
+
+class TestQuietNiceDots(NiceDotsTest, unittest.TestCase):
+    args = ['--quiet-nice-dots']
+
+    def test_suite(self):
+        print '>' * 80
+        print self.output
+        print '>' * 80
+
+        # Summary should be hidden:
+        eq_(str_count(self.output,
+                      'FAIL: nosenicedots/tests/example-suite/test_stuff/'
+                      'test_classes.py:TestClass.test_failing'),
+            1)
