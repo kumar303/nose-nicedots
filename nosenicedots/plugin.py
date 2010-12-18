@@ -90,7 +90,7 @@ class NiceDotsResult(_TextTestResult):
     def addError(self, test, err):
         exc, val, tb = err
         if not issubclass(exc, SkipTest):
-            super(NiceDotsResult, self).addError(test, err)
+            TestResult.addError(self, test, err)
         if self.showAll:
             self.stream.writeln("ERROR")
         elif self.dots:
@@ -102,7 +102,7 @@ class NiceDotsResult(_TextTestResult):
                 self.stream.flush()
 
     def addFailure(self, test, err):
-        super(NiceDotsResult, self).addFailure(test, err)
+        TestResult.addFailure(self, test, err)
         if self.showAll:
             self.stream.writeln("FAIL")
         elif self.dots:
@@ -110,7 +110,7 @@ class NiceDotsResult(_TextTestResult):
             self.stream.flush()
 
     def addSuccess(self, test):
-        super(NiceDotsResult, self).addSuccess(test)
+        TestResult.addSuccess(self, test)
         if self.showAll:
             self.stream.writeln("ok")
         elif self.dots:
