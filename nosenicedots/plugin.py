@@ -4,7 +4,7 @@ from inspect import isfunction
 import logging
 import os
 import unittest
-from unittest import TestResult
+from unittest import TestResult, _TextTestResult
 import threading
 
 from nose.plugins import Plugin
@@ -32,64 +32,8 @@ class NiceDots(Plugin):
         self.options = options
 
     def prepareTestResult(self, result):
-        self = result # for monkeypatching! (see below)
-
         # TODO(Kumar) this will break when unittest changes.
         # Current code is from 2.6
-
-        def getDescription(test):
-            return nice_test_address(test)
-
-        result.getDescription = getDescription
-
-        def printError(flavour, err, test):
-            err = TestResult._exc_info_to_string(self, err, test)
-            self.stream.writeln("")
-            self.stream.writeln(self.separator1)
-            self.stream.writeln("%s: %s" % (flavour,
-                                            self.getDescription(test)))
-            self.stream.writeln(self.separator2)
-            self.stream.writeln("%s" % err)
-
-        def addError(test, err):
-            exc, val, tb = err
-            if not issubclass(exc, SkipTest):
-                TestResult.addError(self, test, err)
-            if self.showAll:
-                self.stream.writeln("ERROR")
-            elif self.dots:
-                if issubclass(exc, SkipTest):
-                    self.stream.writeln("")
-                    self.stream.writeln("SKIP: %s" % nice_test_address(test))
-                else:
-                    printError('ERROR', err, test)
-                    self.stream.flush()
-
-        result.addError = addError
-
-        def addFailure(test, err):
-            TestResult.addFailure(self, test, err)
-            if self.showAll:
-                self.stream.writeln("FAIL")
-            elif self.dots:
-                printError('FAIL', err, test)
-                self.stream.flush()
-
-        result.addFailure = addFailure
-
-        def addSuccess(test):
-            TestResult.addSuccess(self, test)
-            if self.showAll:
-                self.stream.writeln("ok")
-            elif self.dots:
-                context = get_context(test)
-                if context:
-                    self.stream.writeln("")
-                    self.stream.writeln(context)
-                self.stream.write('.')
-                self.stream.flush()
-
-        result.addSuccess = addSuccess
 
         # Don't repeat failures at the bottom? Hmm.
 
@@ -99,10 +43,81 @@ class NiceDots(Plugin):
         #
         # result.printErrors = printErrors
 
+        nice_result = NiceDotsResult(self.runner.stream,
+                                     self.runner.descriptions,
+                                     self.runner.verbosity)
+
+        # Monkey patch unittest result with a custom result.
+        # This is because Nose cannot completely replace the
+        # unittest result.  Without this we can replace a few things.
+        for fn in nice_result.__class__.__dict__:
+            setattr(result, fn, getattr(nice_result, fn))
+
+        # Reference some attributes so that summaries work:
+        for a in ('failures', 'errors', 'testsRun', 'shouldStop'):
+            setattr(nice_result, a, getattr(result, a))
+
+        # Tell other plugins that it's probably not safe to
+        # do their own monkeypatching.
+        return result
+
+    def prepareTestRunner(self, runner):
+        self.runner = runner
+
+
+class NiceDotsResult(_TextTestResult):
+
+    def getDescription(self, test):
+        return nice_test_address(test)
+
+    def printError(self, flavour, err, test):
+        err = super(NiceDotsResult, self)._exc_info_to_string(err, test)
+        self.stream.writeln("")
+        self.stream.writeln(self.separator1)
+        self.stream.writeln("%s: %s" % (flavour,
+                                        self.getDescription(test)))
+        self.stream.writeln(self.separator2)
+        self.stream.writeln("%s" % err)
+
+    def addError(self, test, err):
+        exc, val, tb = err
+        if not issubclass(exc, SkipTest):
+            super(NiceDotsResult, self).addError(test, err)
+        if self.showAll:
+            self.stream.writeln("ERROR")
+        elif self.dots:
+            if issubclass(exc, SkipTest):
+                self.stream.writeln("")
+                self.stream.writeln("SKIP: %s" % nice_test_address(test))
+            else:
+                self.printError('ERROR', err, test)
+                self.stream.flush()
+
+    def addFailure(self, test, err):
+        super(NiceDotsResult, self).addFailure(test, err)
+        if self.showAll:
+            self.stream.writeln("FAIL")
+        elif self.dots:
+            self.printError('FAIL', err, test)
+            self.stream.flush()
+
+    def addSuccess(self, test):
+        super(NiceDotsResult, self).addSuccess(test)
+        if self.showAll:
+            self.stream.writeln("ok")
+        elif self.dots:
+            context = get_context(test)
+            if context:
+                self.stream.writeln("")
+                self.stream.writeln(context)
+            self.stream.write('.')
+            self.stream.flush()
+
 
 def nice_test_address(test):
     path, module, test_path = test_address(test)
     return "%s:%s" % (nice_path(path), test_path)
+
 
 def get_context(test):
     new_context = None
