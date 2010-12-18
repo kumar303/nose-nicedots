@@ -109,6 +109,12 @@ class NiceDotsResult(_TextTestResult):
             self.printError('FAIL', err, test)
             self.stream.flush()
 
+    def addSkip(self, test, reason):
+        # only in 2.7+
+        self.stream.writeln("")
+        self.stream.writeln("SKIP: %s" % nice_test_address(test))
+        super(TestResult, self).addSkip(test, reason)
+
     def addSuccess(self, test):
         TestResult.addSuccess(self, test)
         if self.showAll:
