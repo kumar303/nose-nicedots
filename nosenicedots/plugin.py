@@ -126,6 +126,8 @@ def nice_test_address(test):
     path, module, test_path = test_address(test)
     return "%s:%s" % (nice_path(path), test_path)
 
+nice_test_address.__test__ = False # Not a test for Nose
+
 
 def get_context(test):
     new_context = None
@@ -150,7 +152,7 @@ def get_context(test):
 def nice_path(path):
     path = os.path.abspath(path)
     if path.startswith(os.getcwd()):
-        path = path.replace(os.getcwd(), '')[1:] # remove slash
+        path = path.replace(os.getcwd(), '')[1:] # shorten and remove slash
     if path.endswith('.pyc'):
         path = path[0:-1]
     return path
