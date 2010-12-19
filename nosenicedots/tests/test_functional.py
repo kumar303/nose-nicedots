@@ -58,8 +58,8 @@ class TestDefaults(NiceDotsTest, unittest.TestCase):
             2)
 
 
-class TestQuietNiceDots(NiceDotsTest, unittest.TestCase):
-    args = ['--quiet-nice-dots']
+class TestStop(NiceDotsTest, unittest.TestCase):
+    args = ['--stop']
 
     def test_suite(self):
         print '>' * 80
@@ -68,6 +68,6 @@ class TestQuietNiceDots(NiceDotsTest, unittest.TestCase):
 
         # Summary should be hidden:
         eq_(str_count(self.output,
-                      'FAIL: nosenicedots/tests/example-suite/test_stuff/'
-                      'test_classes.py:TestClass.test_failing'),
+                      'nosenicedots/tests/example-suite/test_stuff/'
+                      'test_classes.py:TestClass.test_error'),
             1)

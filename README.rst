@@ -55,17 +55,10 @@ Example
 
   FAILED (failures=1)
 
-Additional Options
-==================
-
-**--quiet-nice-dots**
-  By default, errors are printed when the occur and also
-  in the summary. Set this to hide them in the summary.
-
 Caveats
 =======
 
-- Only Python 2.6 and 2.7 are supported at the moment. Other versions might
+- Python 2.5, 2.6 and 2.7 are supported at the moment. Other versions might
   work too.
 - SkipTest is not fully supported.  It kinda works.
 - If any other plugin needs to patch the unittest result then it will
