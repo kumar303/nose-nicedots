@@ -126,8 +126,14 @@ class NiceDotsResult(_TextTestResult):
 
 
 def nice_test_address(test):
-    path, module, test_path = test_address(test)
-    return "%s:%s" % (nice_path(path), test_path)
+    addr = test_address(test)
+    if addr is None:
+        return '??'
+    path, module, test_path = addr
+    path = nice_path(path)
+    if test_path is None:
+        return path
+    return "%s:%s" % (path, test_path)
 
 nice_test_address.__test__ = False # Not a test for Nose
 

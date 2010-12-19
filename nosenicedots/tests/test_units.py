@@ -1,7 +1,9 @@
 
+import sys
 import unittest
 
 import nose.case
+from nose.failure import Failure
 from nose.tools import eq_
 from nose.pyversion import unbound_method
 
@@ -58,3 +60,22 @@ class TestNiceAddresses(unittest.TestCase):
         case = nose.case.MethodTestCase(unbound_method(TC, TC.test_gen))
         eq_(nice_test_address(case),
             'nosenicedots/tests/test_units.py:TC.test_gen')
+
+    def test_syntax_error(self):
+        try:
+            raise RuntimeError(
+                    "more realistically this would be a SyntaxError")
+        except:
+            exc = sys.exc_info()
+        case = Failure(exc[0], exc[1], tb=exc[2],
+                       address=('some_file.py', None, None))
+        eq_(nice_test_address(case), 'some_file.py')
+
+    def test_catastropic_failure(self):
+        try:
+            raise RuntimeError("really big error")
+        except:
+            exc = sys.exc_info()
+        case = Failure(exc[0], exc[1], exc[2], address=None)
+        eq_(nice_test_address(case),
+            '??')

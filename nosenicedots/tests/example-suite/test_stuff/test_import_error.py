@@ -1,0 +1,3 @@
+
+# SyntaxError:
+raise :foo: bar

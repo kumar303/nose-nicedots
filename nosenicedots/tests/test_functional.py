@@ -56,6 +56,11 @@ class TestDefaults(NiceDotsTest, unittest.TestCase):
                       'FAIL: nosenicedots/tests/example-suite/test_stuff/'
                       'test_classes.py:TestClass.test_failing'),
             2)
+        # handle SyntaxError:
+        assert ('ERROR: nosenicedots/tests/example-suite/test_stuff/'
+                'test_import_error.py:None') not in self.output
+        assert ('ERROR: nosenicedots/tests/example-suite/test_stuff/'
+                'test_import_error.py') in self.output
 
 
 class TestStop(NiceDotsTest, unittest.TestCase):
