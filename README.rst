@@ -86,7 +86,8 @@ copy/paste and re-run tests in the TestActivity class like this::
 Caveats
 =======
 
-- Python 2.5, 2.6 and 2.7 are supported at the moment. Other versions might
-  work too.
 - If any other plugin needs to patch the unittest result then it will
   conflict with Nice Dots.
+- Python 2.5, 2.6 and 2.7 are supported at the moment. Other versions may or
+  may not work.  Python 3 is **not** yet supported.  There are failing tests
+  if you'd like to work on it :)
