@@ -2,7 +2,7 @@
 Nice Dots
 ==============================
 
-Prints module/class name then dots for nosetests_.
+It's a nosetests_ plugin that prints nicer dots grouped by class/module.
 
 .. _nosetests: http://somethingaboutorange.com/mrl/projects/nose/
 
