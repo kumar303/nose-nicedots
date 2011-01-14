@@ -51,9 +51,37 @@ Example
   AssertionError
 
   ----------------------------------------------------------------------
-  Ran 24 tests in 1.62s
+  Ran 44 tests in 1.62s
 
   FAILED (failures=1)
+
+This new style of output is intended as a more useful test report and is
+inspired by `py.test`_. Instead of a confusing (yet pretty) mess of dots
+you'll see a printout of the module or class followed by dots that indicate
+each test in that group.
+
+You'll see the traceback for a failure immediately, which was designed for
+long running test suites. Note that the tracebacks are repeated again down at
+the bottom in case the output had scrolled off the screen already. Using
+``--stop`` will not duplicate failure output.
+
+.. _`py.test`: http://pytest.org/
+
+It's Also A Test Address
+========================
+
+Each module or class group also doubles as an argument you can give to Nose if
+you want to re-run that group of tests. From the above output you could
+copy/paste and re-run tests in the TestActivity class like this::
+
+  $ nosetests --with-nicedots apps/devhub/tests/test_views.py:TestActivity
+
+  apps/devhub/tests/test_views.py:TestActivity
+  ..............
+  ----------------------------------------------------------------------
+  Ran 14 tests in 0.62s
+
+  OK
 
 Caveats
 =======
