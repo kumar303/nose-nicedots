@@ -60,6 +60,5 @@ Caveats
 
 - Python 2.5, 2.6 and 2.7 are supported at the moment. Other versions might
   work too.
-- SkipTest is not fully supported.  It kinda works.
 - If any other plugin needs to patch the unittest result then it will
   conflict with Nice Dots.
