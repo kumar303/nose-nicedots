@@ -129,7 +129,7 @@ class NiceDotsResult(_TextTestResult):
 def nice_test_address(test):
     if isinstance(test, nose.suite.ContextSuite):
         addr = test_address(test.context)
-        if test.error_context:
+        if hasattr(test, 'error_context') and test.error_context:
             addr = list(addr)
             if addr[2]:
                 # class
