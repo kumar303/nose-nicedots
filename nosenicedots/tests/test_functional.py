@@ -61,6 +61,9 @@ class TestDefaults(NiceDotsTest, unittest.TestCase):
                 'test_import_error.py:None') not in self.output
         assert ('ERROR: nosenicedots/tests/example-suite/test_stuff/'
                 'test_import_error.py') in self.output
+        # Handle ContextSuite
+        assert ('ERROR: nosenicedots/tests/example-suite/test_stuff/'
+                'test_failing_context.py') in self.output
 
 
 class TestStop(NiceDotsTest, unittest.TestCase):

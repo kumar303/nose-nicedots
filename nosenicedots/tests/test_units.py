@@ -3,6 +3,7 @@ import sys
 import unittest
 
 import nose.case
+import nose.suite
 from nose.failure import Failure
 from nose.tools import eq_
 from nose.pyversion import unbound_method
@@ -18,6 +19,23 @@ class TestNiceAddresses(unittest.TestCase):
         case = nose.case.FunctionTestCase(func)
         eq_(nice_test_address(case),
             'nosenicedots/tests/test_units.py:func')
+
+    def test_context_suite(self):
+        class module:
+            def setup(self):
+                pass
+            def teardown(self):
+                pass
+
+        context = module()
+        suite = nose.suite.ContextSuite([], context=context)
+        def setup():
+            pass
+        def func():
+            pass
+
+        eq_(nice_test_address(suite),
+            'nosenicedots/tests/test_units.py:module')
 
     def test_generator(self):
         def fn(x):

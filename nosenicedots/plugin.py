@@ -7,6 +7,7 @@ import unittest
 from unittest import TestResult, _TextTestResult
 import threading
 
+import nose.suite
 from nose.plugins import Plugin
 from nose.exc import SkipTest
 from nose.case import Test, FunctionTestCase
@@ -126,6 +127,8 @@ class NiceDotsResult(_TextTestResult):
 
 
 def nice_test_address(test):
+    if isinstance(test, nose.suite.ContextSuite):
+        test = test.context
     addr = test_address(test)
     if addr is None:
         return '??'
