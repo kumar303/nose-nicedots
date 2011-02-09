@@ -128,8 +128,17 @@ class NiceDotsResult(_TextTestResult):
 
 def nice_test_address(test):
     if isinstance(test, nose.suite.ContextSuite):
-        test = test.context
-    addr = test_address(test)
+        addr = test_address(test.context)
+        if test.error_context:
+            addr = list(addr)
+            if addr[2]:
+                # class
+                addr[2] = '%s.%s' % (addr[2], test.error_context)
+            else:
+                # module
+                addr[2] = test.error_context
+    else:
+        addr = test_address(test)
     if addr is None:
         return '??'
     path, module, test_path = addr
