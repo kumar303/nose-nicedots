@@ -172,8 +172,14 @@ def get_context(test):
 
 def nice_path(path):
     path = os.path.abspath(path)
-    if path.startswith(os.getcwd()):
-        path = path.replace(os.getcwd(), '')[1:] # shorten and remove slash
+    try:
+        wd = os.getcwd()
+    except OSError:
+        # I guess you did something stupid like delete the current directory.
+        pass
+    else:
+        if path.startswith(wd):
+            path = path.replace(wd, '')[1:] # shorten and remove slash
     if path.endswith('.pyc'):
         path = path[0:-1]
     return path

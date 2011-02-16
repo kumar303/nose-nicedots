@@ -1,5 +1,8 @@
 
+import os
 import sys
+import shutil
+import tempfile
 import unittest
 
 import nose.case
@@ -8,7 +11,7 @@ from nose.failure import Failure
 from nose.tools import eq_
 from nose.pyversion import unbound_method
 
-from nosenicedots import nice_test_address
+from nosenicedots import nice_test_address, nice_path
 
 class TestNiceAddresses(unittest.TestCase):
 
@@ -97,3 +100,22 @@ class TestNiceAddresses(unittest.TestCase):
         case = Failure(exc[0], exc[1], exc[2], address=None)
         eq_(nice_test_address(case),
             '??')
+
+
+class TestNicePath(unittest.TestCase):
+
+    def test_missing_working_dir(self):
+        tmp = tempfile.mkdtemp()
+        pwd = os.getcwd()
+        try:
+            os.chdir(tmp)
+            shutil.rmtree(tmp)
+            eq_(nice_path(__file__), __file__)
+        finally:
+            os.chdir(pwd)
+
+    def test_rel_path(self):
+        eq_(nice_path(os.path.dirname(__file__)), 'nosenicedots/tests')
+
+    def test_pyc_is_stripped(self):
+        eq_(nice_path('some_file.pyc'), 'some_file.py')
