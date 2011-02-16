@@ -171,6 +171,8 @@ def get_context(test):
 
 
 def nice_path(path):
+    if path is None:
+        return path
     path = os.path.abspath(path)
     try:
         wd = os.getcwd()

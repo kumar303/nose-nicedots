@@ -110,7 +110,8 @@ class TestNicePath(unittest.TestCase):
         try:
             os.chdir(tmp)
             shutil.rmtree(tmp)
-            eq_(nice_path(__file__), __file__)
+            p = nice_path(__file__)
+            assert p.startswith(__file__), ('Unexpected: %s' % p)
         finally:
             os.chdir(pwd)
 
@@ -119,3 +120,7 @@ class TestNicePath(unittest.TestCase):
 
     def test_pyc_is_stripped(self):
         eq_(nice_path('some_file.pyc'), 'some_file.py')
+
+    def test_none_path(self):
+        # an internal ImportError in Nose caused this
+        eq_(nice_path(None), None)
