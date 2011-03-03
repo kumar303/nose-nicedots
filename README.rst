@@ -20,6 +20,8 @@ or from source::
 Usage
 =====
 
+::
+
   nosetests --with-nicedots
 
 Example
