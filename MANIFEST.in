@@ -2,3 +2,4 @@ include requirements.txt
 include README.rst
 include LICENSE
 include tox.ini
+prune nosenicedots/tests/example-suite
