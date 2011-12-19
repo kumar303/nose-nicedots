@@ -64,6 +64,7 @@ class TestDefaults(NiceDotsTest, unittest.TestCase):
         # Handle ContextSuite
         assert ('ERROR: nosenicedots/tests/example-suite/test_stuff/'
                 'test_failing_context.py:setup') in self.output
+        assert "has no attribute 'addSkip'" not in self.output
 
 
 class TestStop(NiceDotsTest, unittest.TestCase):

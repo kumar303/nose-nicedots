@@ -1,5 +1,7 @@
-
 import unittest
+
+from nose.exc import SkipTest
+
 
 class TestClass(unittest.TestCase):
 
@@ -14,3 +16,6 @@ class TestClass(unittest.TestCase):
 
     def test_error(self):
         raise RuntimeError
+
+    def test_skip(self):
+        raise SkipTest('skipped')

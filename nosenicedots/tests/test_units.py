@@ -111,7 +111,8 @@ class TestNicePath(unittest.TestCase):
             os.chdir(tmp)
             shutil.rmtree(tmp)
             p = nice_path(__file__)
-            assert p.startswith(__file__), ('Unexpected: %s' % p)
+            assert p.startswith(__file__), (
+                                '%s does not start with %s' % (p, __file__))
         finally:
             os.chdir(pwd)
 
