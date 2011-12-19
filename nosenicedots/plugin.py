@@ -157,7 +157,13 @@ def get_context(test):
         test = test.test
 
     if isinstance(test, FunctionTestCase):
-        context = nice_path(inspect.getfile(inspect.getmodule(test.test)))
+        mod = inspect.getmodule(test.test)
+        try:
+            file_ = inspect.getfile(mod)
+        except ValueError:
+            # builtin object
+            file_ = repr(mod)
+        context = nice_path(file_)
     elif isinstance(test, unittest.TestCase):
         context = '%s:%s' % (nice_path(inspect.getfile(test.__class__)),
                              test.__class__.__name__)
