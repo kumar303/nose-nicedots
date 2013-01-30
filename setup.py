@@ -9,7 +9,7 @@ if sys.version_info >= (3,):
 
 setup(
     name='nosenicedots',
-    version='0.3',
+    version='0.4',
     description="Nose plugin that prints nicer dots grouped by class/module.",
     long_description=open('./README.rst').read(),
     author='Kumar McMillan',
